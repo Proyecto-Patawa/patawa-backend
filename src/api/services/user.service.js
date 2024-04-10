@@ -1,5 +1,5 @@
 export const userService = {
   getAllUsers: () => {
-    return "hello from user service";
+    return "Hello from user service";
   },
 };
