@@ -12,3 +12,119 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  userId         Int          @id @default(autoincrement()) @map("user_id")
+  email          String       @unique
+  passwordHash   String       @map("password_hash")
+  passwordSalt   String       @map("password_salt")
+  fullName       String       @map("full_name")
+  age            Int?
+  documentTypeId Int          @map("document_type_id")
+  documentNumber String       @unique @map("document_number")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  lastLoginAt    DateTime     @updatedAt @map("last_login_at")
+  avatarUrl      String?      @map("avatar_url")
+  DocumentType   DocumentType @relation(fields: [documentTypeId], references: [documentTypeId])
+  Addresses      Address[]
+  Phones         UserPhone[]
+  UserRoles      UserRole[]
+  Dogs           Dog[]        @relation("ownerUser")
+  Walks          Walk[]       @relation("walkerUser")
+
+  @@map("users")
+}
+
+model DocumentType {
+  documentTypeId Int    @id @default(autoincrement()) @map("document_type_id")
+  typeName       String @unique @map("document_type_name")
+  abbreviation   String @unique
+  Users          User[]
+
+  @@map("document_types")
+}
+
+model Address {
+  addressId     Int    @id @default(autoincrement()) @map("address_id")
+  userId        Int    @map("user_id")
+  addressDetail String
+  city          String
+  User          User   @relation(fields: [userId], references: [userId])
+
+  @@map("addresses")
+}
+
+model UserPhone {
+  phoneId     Int    @id @default(autoincrement()) @map("phone_id")
+  userId      Int    @map("user_id")
+  phoneNumber String @map("phone_number")
+  User        User   @relation(fields: [userId], references: [userId])
+
+  @@map("user_phones")
+}
+
+model Role {
+  roleId    Int        @id @default(autoincrement()) @map("role_id")
+  roleName  String     @unique @map("role_name")
+  UserRoles UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  User   User @relation(fields: [userId], references: [userId])
+  Role   Role @relation(fields: [roleId], references: [roleId])
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model Dog {
+  dogId       Int          @id @default(autoincrement()) @map("dog_id")
+  ownerUserId Int          @map("owner_user_id")
+  age         Int
+  color       String
+  fullName    String       @map("full_name")
+  weight      Float
+  size        String
+  breedId     Int          @map("breed_id")
+  Owner       User         @relation(fields: [ownerUserId], references: [userId], name: "ownerUser")
+  Breed       Breed        @relation(fields: [breedId], references: [breedId])
+  WalkDetails WalkDetail[]
+
+  @@map("dogs")
+}
+
+model Breed {
+  breedId   Int    @id @default(autoincrement()) @map("breed_id")
+  breedName String @unique @map("breed_name")
+  Dogs      Dog[]
+
+  @@map("breeds")
+}
+
+model Walk {
+  walkId       Int          @id @default(autoincrement()) @map("walk_id")
+  date         DateTime
+  time         DateTime
+  duration     Int
+  location     String
+  walkerUserId Int          @map("walker_user_id")
+  Walker       User         @relation(fields: [walkerUserId], references: [userId], name: "walkerUser")
+  WalkDetails  WalkDetail[]
+
+  @@map("walks")
+}
+
+model WalkDetail {
+  walkId   Int     @map("walk_id")
+  dogId    Int     @map("dog_id")
+  comments String?
+  Walk     Walk    @relation(fields: [walkId], references: [walkId])
+  Dog      Dog     @relation(fields: [dogId], references: [dogId])
+
+  @@id([walkId, dogId])
+  @@map("walk_details")
+}
