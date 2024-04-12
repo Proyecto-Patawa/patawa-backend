@@ -1,4 +1,5 @@
 import { userService } from "../services/user.service.js";
+
 export const userController = {
   getAllUsers: async (req, res) => {
     try {
