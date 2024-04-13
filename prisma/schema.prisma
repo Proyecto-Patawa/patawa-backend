@@ -90,6 +90,7 @@ model Dog {
   weight      Float
   size        String
   breedId     Int          @map("breed_id")
+  photo       String?
   Owner       User         @relation(fields: [ownerUserId], references: [userId], name: "ownerUser")
   Breed       Breed        @relation(fields: [breedId], references: [breedId])
   WalkDetails WalkDetail[]

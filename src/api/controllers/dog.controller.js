@@ -11,8 +11,7 @@ export const dogController = {
   },
   createDog: async (req, res) => {
     try {
-      const { dogData } = req.body;
-      const dog = await dogService.createDog(dogData);
+      const dog = await dogService.createDog(req.body);
       res.status(201).json(dog);
     } catch (error) {
       res.status(500).json({ error: error.message });
