@@ -107,8 +107,7 @@ model Breed {
 
 model Walk {
   walkId       Int          @id @default(autoincrement()) @map("walk_id")
-  date         DateTime
-  time         DateTime
+  dateTime     DateTime     @map("date_time")
   duration     Int
   location     String
   walkerUserId Int          @map("walker_user_id")
