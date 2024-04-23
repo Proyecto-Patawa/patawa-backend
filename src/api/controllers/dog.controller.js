@@ -9,6 +9,7 @@ export const dogController = {
       res.status(500).json({ error: error.message });
     }
   },
+
   createDog: async (req, res) => {
     try {
       const dog = await dogService.createDog(req.body);
@@ -24,12 +25,13 @@ export const dogController = {
       if (dog) {
         res.status(200).json(dog);
       } else {
-        res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "Dog not found" });
       }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   },
+
   updateDog: async (req, res) => {
     try {
       const dog = await dogService.updateDog(parseInt(req.params.id), req.body);
@@ -38,6 +40,7 @@ export const dogController = {
       res.status(400).json({ error: error.message });
     }
   },
+
   deleteDog: async (req, res) => {
     try {
       await dogService.deleteDog(parseInt(req.params.id));
