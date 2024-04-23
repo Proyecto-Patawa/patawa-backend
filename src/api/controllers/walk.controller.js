@@ -1,4 +1,5 @@
 import { walkService } from "../services/walk.service.js";
+
 export const walkController = {
   getAllWalks: (req, res) => {
     try {

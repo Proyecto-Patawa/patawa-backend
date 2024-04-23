@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { userSelectData } from "../utils/user.utils.js";
 const prisma = new PrismaClient();
 
 export const userService = {
@@ -16,11 +17,14 @@ export const userService = {
   },
 
   getAllUsers: async () => {
-    return await prisma.user.findMany({});
+    return await prisma.user.findMany({
+      select: userSelectData(),
+    });
   },
 
   getUserById: async (id) => {
     return await prisma.user.findUnique({
+      select: userSelectData(),
       where: { userId: id },
     });
   },
@@ -49,13 +53,7 @@ export const userService = {
           },
         },
       },
-      include: {
-        UserRoles: {
-          include: {
-            Role: true,
-          },
-        },
-      },
+      select: userSelectData(),
     });
   },
 
@@ -68,21 +66,25 @@ export const userService = {
     const user = await prisma.user.create({
       data: {
         ...userData,
-        addresses: {
-          create: addressesData, // ⁠ addressesData ⁠ es un array de objetos de direcciones
+        Addresses: {
+          // Asegúrate de usar el nombre exacto del campo definido en tu modelo Prisma
+          create: addressesData, // 'addressesData' es un array de objetos de direcciones
         },
-        phones: {
-          create: phonesData, // ⁠ phonesData ⁠ es un array de objetos de teléfonos
+        Phones: {
+          // Asegúrate de usar el nombre exacto del campo definido en tu modelo Prisma
+          create: phonesData, // 'phonesData' es un array de objetos de teléfonos
         },
-        roles: {
-          create: rolesData,
+        UserRoles: {
+          // Aquí es donde necesitas ajustar para usar la tabla intermedia 'UserRole'
+          create: rolesData.map((role) => ({
+            Role: {
+              connect: { roleId: role.roleId },
+            },
+          })),
         },
       },
-      include: {
-        addresses: true,
-        phones: true, // Asegúrate de que los nombres coincidan con los de tu modelo
-        roles: true,
-      },
+
+      select: userSelectData(),
     });
     return user;
   },

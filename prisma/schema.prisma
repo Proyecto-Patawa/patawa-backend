@@ -16,8 +16,7 @@ datasource db {
 model User {
   userId         Int          @id @default(autoincrement()) @map("user_id")
   email          String       @unique
-  passwordHash   String       @map("password_hash")
-  passwordSalt   String       @map("password_salt")
+  passwordHash   String       @default("") @map("password_hash")
   fullName       String       @map("full_name")
   age            Int?
   documentTypeId Int          @map("document_type_id")

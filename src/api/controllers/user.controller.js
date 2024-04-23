@@ -66,12 +66,12 @@ export const userController = {
 
   createUserWithDetails: async (req, res) => {
     try {
-      const { userData, addressesData, phonesData, roles } = req.body;
+      const { userData, addressesData, phonesData, rolesData } = req.body;
       const user = await userService.createUserWithDetails(
         userData,
         addressesData,
         phonesData,
-        roles
+        rolesData
       );
       res.status(200).json(user);
     } catch (error) {

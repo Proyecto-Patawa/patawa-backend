@@ -15,6 +15,9 @@ export const dogService = {
   getDogById: async (id) => {
     return await prisma.dog.findUnique({
       where: { dogId: id },
+      include: {
+        Breed: true,
+      },
     });
   },
 
