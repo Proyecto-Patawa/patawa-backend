@@ -52,4 +52,23 @@ export const walkController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  createWalkDetail: async (req, res) => {
+    try {
+      const walkDetail = await walkService.createWalkDetail(req.body);
+      res.status(201).json(walkDetail);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getAllWalksDetails: async (req, res) => {
+    try {
+      const walkId = parseInt(req.params.walkId);
+      const walksDetails = await walkService.getAllWalksDetails(walkId);
+      res.status(200).json(walksDetails);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
