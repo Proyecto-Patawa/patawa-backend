@@ -40,8 +40,17 @@ export const walkService = {
   getAllWalksDetails: async (walkId) => {
     return await prisma.walkDetail.findMany({
       where: {
-        walkId: parseInt(walkId),
+        walkId: walkId,
       },
+    });
+  },
+
+  updateWalkDetail: async (walkId, dogId, walkDetailData) => {
+    return await prisma.walkDetail.update({
+      where: {
+        walk_detail_id: { walkId: parseInt(walkId), dogId: parseInt(dogId) },
+      },
+      data: walkDetailData,
     });
   },
 };

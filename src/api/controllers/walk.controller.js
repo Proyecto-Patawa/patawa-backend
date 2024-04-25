@@ -71,4 +71,18 @@ export const walkController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+  updateWalkDetail: async (req, res) => {
+    try {
+      const { walkId, dogId, data } = req.body;
+      const walkDetail = await walkService.updateWalkDetail(
+        walkId,
+        dogId,
+        data
+      );
+      res.status(200).json(walkDetail);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
 };
