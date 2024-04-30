@@ -64,9 +64,23 @@ export const walkController = {
 
   getAllWalksDetails: async (req, res) => {
     try {
-      const walkId = parseInt(req.params.walkId);
-      const walksDetails = await walkService.getAllWalksDetails(walkId);
+      const walksDetails = await walkService.getAllWalksDetails();
       res.status(200).json(walksDetails);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  getWalkDetailById: async (req, res) => {
+    try {
+      const walkDetail = await walkService.getWalkDetailById(
+        parseInt(req.params.id)
+      );
+      if (walkDetail) {
+        res.status(200).json(walkDetail);
+      } else {
+        res.status(404).json({ message: "WalkDetail not found" });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -74,15 +88,24 @@ export const walkController = {
 
   updateWalkDetail: async (req, res) => {
     try {
-      const { walkId, dogId, data } = req.body;
       const walkDetail = await walkService.updateWalkDetail(
-        walkId,
-        dogId,
-        data
+        parseInt(req.params.id),
+        req.body
       );
       res.status(200).json(walkDetail);
     } catch (error) {
       res.status(400).json({ error: error.message });
+    }
+  },
+
+  deleteWalkDetail: async (req, res) => {
+    try {
+      const walkDetail = await walkService.deleteWalkDetail(
+        parseInt(req.params.id)
+      );
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 };

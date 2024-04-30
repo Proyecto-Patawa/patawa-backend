@@ -13,6 +13,7 @@ export const userService = {
           })),
         },
       },
+      select: userSelectData(),
     });
   },
 
@@ -33,6 +34,7 @@ export const userService = {
     return await prisma.user.update({
       where: { userId: id },
       data: userData,
+      select: userSelectData(),
     });
   },
 

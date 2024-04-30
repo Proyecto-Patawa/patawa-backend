@@ -2,8 +2,7 @@
 CREATE TABLE `users` (
     `user_id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `password_hash` VARCHAR(191) NOT NULL,
-    `password_salt` VARCHAR(191) NOT NULL,
+    `password_hash` VARCHAR(191) NOT NULL DEFAULT '',
     `full_name` VARCHAR(191) NOT NULL,
     `age` INTEGER NULL,
     `document_type_id` INTEGER NOT NULL,
@@ -21,7 +20,10 @@ CREATE TABLE `users` (
 CREATE TABLE `document_types` (
     `document_type_id` INTEGER NOT NULL AUTO_INCREMENT,
     `document_type_name` VARCHAR(191) NOT NULL,
+    `abbreviation` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `document_types_document_type_name_key`(`document_type_name`),
+    UNIQUE INDEX `document_types_abbreviation_key`(`abbreviation`),
     PRIMARY KEY (`document_type_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -49,6 +51,7 @@ CREATE TABLE `roles` (
     `role_id` INTEGER NOT NULL AUTO_INCREMENT,
     `role_name` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `roles_role_name_key`(`role_name`),
     PRIMARY KEY (`role_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -70,6 +73,7 @@ CREATE TABLE `dogs` (
     `weight` DOUBLE NOT NULL,
     `size` VARCHAR(191) NOT NULL,
     `breed_id` INTEGER NOT NULL,
+    `photo` VARCHAR(191) NULL,
 
     PRIMARY KEY (`dog_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -79,14 +83,14 @@ CREATE TABLE `breeds` (
     `breed_id` INTEGER NOT NULL AUTO_INCREMENT,
     `breed_name` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `breeds_breed_name_key`(`breed_name`),
     PRIMARY KEY (`breed_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `walks` (
     `walk_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `date` DATETIME(3) NOT NULL,
-    `time` DATETIME(3) NOT NULL,
+    `date_time` DATETIME(3) NOT NULL,
     `duration` INTEGER NOT NULL,
     `location` VARCHAR(191) NOT NULL,
     `walker_user_id` INTEGER NOT NULL,
@@ -96,11 +100,12 @@ CREATE TABLE `walks` (
 
 -- CreateTable
 CREATE TABLE `walk_details` (
+    `walk_detail_id` INTEGER NOT NULL AUTO_INCREMENT,
     `walk_id` INTEGER NOT NULL,
     `dog_id` INTEGER NOT NULL,
     `comments` VARCHAR(191) NULL,
 
-    PRIMARY KEY (`walk_id`, `dog_id`)
+    PRIMARY KEY (`walk_detail_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey

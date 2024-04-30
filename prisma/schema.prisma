@@ -24,6 +24,7 @@ model User {
   createdAt      DateTime     @default(now()) @map("created_at")
   lastLoginAt    DateTime     @updatedAt @map("last_login_at")
   avatarUrl      String?      @map("avatar_url")
+  enabled        Boolean      @default(true)
   DocumentType   DocumentType @relation(fields: [documentTypeId], references: [documentTypeId])
   Addresses      Address[]
   Phones         UserPhone[]
@@ -90,6 +91,7 @@ model Dog {
   size        String
   breedId     Int          @map("breed_id")
   photo       String?
+  enabled     Boolean      @default(true)
   Owner       User         @relation(fields: [ownerUserId], references: [userId], name: "ownerUser")
   Breed       Breed        @relation(fields: [breedId], references: [breedId])
   WalkDetails WalkDetail[]
@@ -118,12 +120,12 @@ model Walk {
 }
 
 model WalkDetail {
-  walkId   Int     @map("walk_id")
-  dogId    Int     @map("dog_id")
-  comments String?
-  Walk     Walk    @relation(fields: [walkId], references: [walkId])
-  Dog      Dog     @relation(fields: [dogId], references: [dogId])
+  walkDetailId Int     @id @default(autoincrement()) @map("walk_detail_id")
+  walkId       Int     @map("walk_id")
+  dogId        Int     @map("dog_id")
+  comments     String?
+  Walk         Walk    @relation(fields: [walkId], references: [walkId], onDelete: Cascade)
+  Dog          Dog     @relation(fields: [dogId], references: [dogId])
 
-  @@id(name: "walk_detail_id", fields: [walkId, dogId])
   @@map("walk_details")
 }

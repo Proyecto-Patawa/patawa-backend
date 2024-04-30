@@ -37,20 +37,25 @@ export const walkService = {
     });
   },
 
-  getAllWalksDetails: async (walkId) => {
-    return await prisma.walkDetail.findMany({
-      where: {
-        walkId: walkId,
-      },
+  getAllWalksDetails: async () => {
+    return await prisma.walkDetail.findMany({});
+  },
+
+  getWalkDetailById: async (id) => {
+    return await prisma.walkDetail.findUnique({
+      where: { walkDetailId: id },
     });
   },
 
-  updateWalkDetail: async (walkId, dogId, walkDetailData) => {
+  updateWalkDetail: async (id, walkDetailData) => {
     return await prisma.walkDetail.update({
-      where: {
-        walk_detail_id: { walkId: parseInt(walkId), dogId: parseInt(dogId) },
-      },
+      where: { walkDetailId: id },
       data: walkDetailData,
+    });
+  },
+  deleteWalkDetail: async (id) => {
+    return await prisma.walkDetail.delete({
+      where: { walkDetailId: id },
     });
   },
 };
