@@ -1,4 +1,5 @@
 import { userService } from "../services/user.service.js";
+import { validateUser } from "../../schemas/user.js";
 
 export const userController = {
   getAllUsers: async (req, res) => {
@@ -12,8 +13,15 @@ export const userController = {
 
   createUser: async (req, res) => {
     try {
-      const { userData, rolesData } = req.body;
-      const user = await userService.createUser(userData, rolesData);
+      const result = validateUser(req.body.userData);
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
+
+      const { rolesData } = req.body;
+      const user = await userService.createUser(result.data, rolesData);
       res.status(201).json(user);
     } catch (error) {
       res.status(400).json({ error: error.message });
