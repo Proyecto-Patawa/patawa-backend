@@ -6,7 +6,7 @@ const userSchema = z.object({
     required_error: "El email es obligatorio",
   }),
   fullName: z.string({
-    invalid_type_error: "Debe ser una cadena de caracteres (string)",
+    invalid_type_error: "Debe ser una cadena de caracteres",
     required_error: "El campo nombre completo es obligatorio",
   }),
   age: z.number().int().min(0).optional(),
@@ -14,7 +14,7 @@ const userSchema = z.object({
     required_error: "El campo es obligatorio",
   }),
   documentNumber: z.string({
-    invalid_type_error: "Debe ser una cadena de caracteres (string)",
+    invalid_type_error: "Debe ser una cadena de caracteres",
     required_error: "El campo es obligatorio",
   }),
   avatarUrl: z.string().optional(),
