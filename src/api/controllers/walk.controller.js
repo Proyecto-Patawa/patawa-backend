@@ -1,4 +1,6 @@
+import { validateWalk } from "../../schemas/walk.js";
 import { walkService } from "../services/walk.service.js";
+import { validateWalkDetail } from "../../schemas/walkDetail.js";
 
 export const walkController = {
   getAllWalks: async (req, res) => {
@@ -12,6 +14,12 @@ export const walkController = {
 
   createWalk: async (req, res) => {
     try {
+      const result = validateWalk(req.body);
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
       const walk = await walkService.createWalk(req.body);
       res.status(201).json(walk);
     } catch (error) {
@@ -55,6 +63,12 @@ export const walkController = {
 
   createWalkDetail: async (req, res) => {
     try {
+      const result = validateWalkDetail(req.body);
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
       const walkDetail = await walkService.createWalkDetail(req.body);
       res.status(201).json(walkDetail);
     } catch (error) {

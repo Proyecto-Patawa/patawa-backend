@@ -20,8 +20,8 @@ export const userController = {
           .json({ error: JSON.parse(result.error.message) });
       }
 
-      const { rolesData } = req.body;
-      const user = await userService.createUser(result.data, rolesData);
+      const { rolesData, userData } = req.body;
+      const user = await userService.createUser(userData, rolesData);
       res.status(201).json(user);
     } catch (error) {
       res.status(400).json({ error: error.message });
