@@ -13,3 +13,7 @@ const walkDetailSchema = z.object({
 export function validateWalkDetail(object) {
   return walkDetailSchema.safeParse(object);
 }
+
+export function validatePartialWalkDetail(object) {
+  return walkDetailSchema.partial().safeParse(object);
+}

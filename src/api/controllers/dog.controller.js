@@ -1,5 +1,5 @@
 import { dogService } from "../services/dog.service.js";
-import { validateDog } from "../../schemas/dog.js";
+import { validateDog, validatePartialDog } from "../../schemas/dog.js";
 
 export const dogController = {
   getAllDogs: async (req, res) => {
@@ -41,6 +41,13 @@ export const dogController = {
 
   updateDog: async (req, res) => {
     try {
+      const result = validatePartialDog(req.body);
+
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
       const dog = await dogService.updateDog(parseInt(req.params.id), req.body);
       res.status(200).json(dog);
     } catch (error) {

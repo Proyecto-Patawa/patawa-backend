@@ -5,7 +5,6 @@ const dogSchema = z.object({
     required_error: "El campo es obligatorio",
   }),
   age: z.number().int({
-    invalid_type_error: "Debe ser un número entero",
     required_error: "El campo es obligatorio",
   }),
   color: z.string({
@@ -29,4 +28,8 @@ const dogSchema = z.object({
 
 export function validateDog(object) {
   return dogSchema.safeParse(object);
+}
+
+export function validatePartialDog(object) {
+  return dogSchema.partial().safeParse(object);
 }

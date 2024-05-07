@@ -1,6 +1,9 @@
-import { validateWalk } from "../../schemas/walk.js";
+import { validateWalk, validatePartialWalk } from "../../schemas/walk.js";
 import { walkService } from "../services/walk.service.js";
-import { validateWalkDetail } from "../../schemas/walkDetail.js";
+import {
+  validateWalkDetail,
+  validatePartialWalkDetail,
+} from "../../schemas/walkDetail.js";
 
 export const walkController = {
   getAllWalks: async (req, res) => {
@@ -42,6 +45,13 @@ export const walkController = {
 
   updateWalk: async (req, res) => {
     try {
+      const result = validatePartialWalk(req.body);
+
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
       const walk = await walkService.updateWalk(
         parseInt(req.params.id),
         req.body
@@ -102,6 +112,13 @@ export const walkController = {
 
   updateWalkDetail: async (req, res) => {
     try {
+      const result = validatePartialWalkDetail(req.body);
+
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
       const walkDetail = await walkService.updateWalkDetail(
         parseInt(req.params.id),
         req.body

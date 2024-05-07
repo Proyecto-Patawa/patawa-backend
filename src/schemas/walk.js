@@ -5,7 +5,6 @@ const walkSchema = z.object({
     .string()
     .datetime({ message: "Fecha y hora no válida. Debe estar en UTC" }),
   duration: z.number().positive().int({
-    invalid_type_error: "Debe ser un número entero",
     required_error: "El campo es obligatorio",
   }),
   location: z.string({
@@ -19,4 +18,8 @@ const walkSchema = z.object({
 
 export function validateWalk(object) {
   return walkSchema.safeParse(object);
+}
+
+export function validatePartialWalk(object) {
+  return walkSchema.partial().safeParse(object);
 }
