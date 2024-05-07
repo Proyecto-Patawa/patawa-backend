@@ -14,3 +14,7 @@ const documentTypeSchema = z.object({
 export function validateDocumetType(object) {
   return documentTypeSchema.safeParse(object);
 }
+
+export function validatePartialDocumentType(object) {
+  return documentTypeSchema.partial().safeParse(object);
+}
