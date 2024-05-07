@@ -1,9 +1,7 @@
 import { z } from "zod";
 
 const dogSchema = z.object({
-  ownerUserId: z.number().int({
-    required_error: "El campo es obligatorio",
-  }),
+  ownerUserId: z.number().int(),
   age: z.number().int({
     required_error: "El campo es obligatorio",
   }),
@@ -20,9 +18,7 @@ const dogSchema = z.object({
     invalid_type_error: "Debe ser una cadena de caracteres",
     required_error: "El campo es obligatorio",
   }),
-  breedId: z.number().int({
-    required_error: "El campo es obligatorio",
-  }),
+  breedId: z.number().int(),
   photo: z.string().optional(),
 });
 
