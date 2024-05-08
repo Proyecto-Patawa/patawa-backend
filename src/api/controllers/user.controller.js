@@ -3,6 +3,7 @@ import {
   validateUser,
   validatePartialUser,
   validateDetailUser,
+  validatePartialDetailUser,
 } from "../../schemas/user.js";
 
 export const userController = {
@@ -95,6 +96,31 @@ export const userController = {
 
       const { userData, addressesData, phonesData, rolesData } = req.body;
       const user = await userService.createUserWithDetails(
+        userData,
+        addressesData,
+        phonesData,
+        rolesData
+      );
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  updateUserWithDetails: async (req, res) => {
+    try {
+      const result = validatePartialDetailUser(req.body);
+
+      if (!result.success) {
+        return res
+          .status(400)
+          .json({ error: JSON.parse(result.error.message) });
+      }
+      const id = parseInt(req.params.id);
+      const { userData, addressesData, phonesData, rolesData } = req.body;
+
+      const user = await userService.updateUserWithDetails(
+        id,
         userData,
         addressesData,
         phonesData,

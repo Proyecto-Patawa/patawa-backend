@@ -38,5 +38,5 @@ export function validateDetailUser(object) {
 }
 
 export function validatePartialDetailUser(object) {
-  return detailUserSchema.partial().safeParse(object);
+  return detailUserSchema.deepPartial().safeParse(object);
 }
