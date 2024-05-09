@@ -1,9 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import { userSelectData } from "../utils/user.utils.js";
+import bcrypt from "bcrypt";
+
 const prisma = new PrismaClient();
 
 export const userService = {
   createUser: async (userData, rolesData) => {
+    const saltRounds = 10;
+    userData.password = await bcrypt.hash(userData.password, saltRounds);
+
     return await prisma.user.create({
       data: {
         ...userData,

@@ -5,6 +5,7 @@ import { addressSchema } from "./address.js";
 
 const userSchema = z.object({
   email: z.string().email(),
+  password: z.string().optional(),
   fullName: z.string({
     invalid_type_error: "Debe ser una cadena de caracteres",
     required_error: "El campo nombre completo es obligatorio",

@@ -5,6 +5,7 @@ import helmet from "helmet";
 import userRoutes from "./api/routes/user.routes.js";
 import dogRoutes from "./api/routes/dog.routes.js";
 import walkRoutes from "./api/routes/walk.routes.js";
+import loginRoutes from "./api/routes/login.routes.js";
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json()); // Permite al servidor entender y parsear JSON en el cu
 app.use("/api/users", userRoutes);
 app.use("/api/dogs", dogRoutes);
 app.use("/api/walks", walkRoutes);
+app.use("/api/login", loginRoutes);
 
 // Manejo de rutas no encontradas
 app.use((req, res, next) => {
