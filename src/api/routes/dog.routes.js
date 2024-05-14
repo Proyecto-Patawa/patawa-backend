@@ -5,9 +5,9 @@ import userExtractor from "../../middleware/userExtractor.js";
 const router = express.Router();
 
 router.get("/", userExtractor, dogController.getAllDogs);
-router.post("/", dogController.createDog);
-router.get("/:id", dogController.getDogById);
-router.put("/:id", dogController.updateDog);
-router.delete("/:id", dogController.deleteDog);
+router.post("/", userExtractor, dogController.createDog);
+router.get("/:id", userExtractor, dogController.getDogById);
+router.put("/:id", userExtractor, dogController.updateDog);
+router.delete("/:id", userExtractor, dogController.deleteDog);
 
 export default router;

@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export default function userExtractor(request, response, next) {
+export default (request, response, next) => {
   const authorization = request.get("authorization");
   let token = "";
 
@@ -19,4 +19,4 @@ export default function userExtractor(request, response, next) {
   request.user = { userId, email };
 
   next();
-}
+};
