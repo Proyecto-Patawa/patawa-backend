@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 export const loginService = {
@@ -14,8 +15,14 @@ export const loginService = {
       return false;
     }
 
-    delete user.password;
-    const token = "prueba";
+    const tokenUser = {
+      userId: user.userId,
+      email: user.email,
+    };
+
+    const token = jwt.sign(tokenUser, process.env.SECRET, {
+      expiresIn: 60 * 60 * 24 * 7,
+    });
 
     return { user, token };
   },

@@ -5,6 +5,7 @@ export const dogController = {
   getAllDogs: async (req, res) => {
     try {
       const dogs = await dogService.getAllDogs();
+      console.log(req.user);
       res.status(200).json(dogs);
     } catch (error) {
       res.status(500).json({ error: error.message });

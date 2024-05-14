@@ -6,7 +6,8 @@ import userRoutes from "./api/routes/user.routes.js";
 import dogRoutes from "./api/routes/dog.routes.js";
 import walkRoutes from "./api/routes/walk.routes.js";
 import loginRoutes from "./api/routes/login.routes.js";
-
+import handleErrors from "./middleware/handleErrors.js";
+import notFound from "./middleware/notFound.js";
 dotenv.config();
 
 const app = express(); // inicializa la aplicación express
@@ -22,10 +23,9 @@ app.use("/api/dogs", dogRoutes);
 app.use("/api/walks", walkRoutes);
 app.use("/api/login", loginRoutes);
 
-// Manejo de rutas no encontradas
-app.use((req, res, next) => {
-  res.status(404).send("Sorry cant find that!");
-});
+// Manejo de rutas no encontradas y errores
+app.use(notFound);
+app.use(handleErrors);
 
 // Inicialización del servidor
 const PORT = process.env.PORT || 3000;
