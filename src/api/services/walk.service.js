@@ -9,26 +9,37 @@ export const walkService = {
   },
 
   getAllWalks: async () => {
-    return await prisma.walk.findMany({});
+    return await prisma.walk.findMany({
+      where: {
+        enabled: true,
+      },
+    });
   },
 
   getWalkById: async (id) => {
     return await prisma.walk.findUnique({
-      where: { walkId: id },
+      where: { walkId: id, enabled: true },
     });
   },
 
   updateWalk: async (id, walkData) => {
-    return await prisma.walk.update({
-      where: { walkId: id },
-      data: walkData,
-    });
+    const enabledWalk = await walkService.checkWalk(id);
+
+    if (enabledWalk) {
+      return await prisma.walk.update({
+        where: { walkId: id },
+        data: walkData,
+      });
+    }
+    return { message: "El paseo no existe o está inactivo" };
   },
 
   deleteWalk: async (id) => {
-    return await prisma.walk.delete({
+    const walk = await prisma.walk.update({
       where: { walkId: id },
+      data: { enabled: false },
     });
+    return { walkId: walk.walkId, enabled: walk.enabled };
   },
 
   createWalkDetail: async (walkDetailData) => {
@@ -53,9 +64,20 @@ export const walkService = {
       data: walkDetailData,
     });
   },
+
   deleteWalkDetail: async (id) => {
     return await prisma.walkDetail.delete({
       where: { walkDetailId: id },
     });
+  },
+
+  checkWalk: async (id) => {
+    const enabledWalk = await prisma.walk.findUnique({
+      where: {
+        walkId: id,
+        enabled: true,
+      },
+    });
+    return enabledWalk ? true : false;
   },
 };

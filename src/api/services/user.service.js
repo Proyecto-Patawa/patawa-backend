@@ -53,8 +53,8 @@ export const userService = {
 
   deleteUser: async (id) => {
     const user = await prisma.user.update({
-      data: { enabled: false },
       where: { userId: id },
+      data: { enabled: false },
       select: userSelectData(),
     });
 

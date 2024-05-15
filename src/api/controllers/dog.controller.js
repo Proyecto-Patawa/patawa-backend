@@ -57,8 +57,8 @@ export const dogController = {
 
   deleteDog: async (req, res) => {
     try {
-      await dogService.deleteDog(parseInt(req.params.id));
-      res.status(204).end();
+      const dogInfo = await dogService.deleteDog(parseInt(req.params.id));
+      res.status(200).json(dogInfo);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -64,8 +64,8 @@ export const walkController = {
 
   deleteWalk: async (req, res) => {
     try {
-      await walkService.deleteWalk(parseInt(req.params.id));
-      res.status(204).end();
+      const walkInfo = await walkService.deleteWalk(parseInt(req.params.id));
+      res.status(200).json(walkInfo);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
