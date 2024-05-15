@@ -8,7 +8,7 @@
 ```bash
 npm install
 
-
+# Configuración
 # Crea un archivo .env en el directorio raíz y configura las variables de entorno necesarias
 
 # Uso
@@ -22,10 +22,17 @@ npm start
 # Para inicializar la base de datos con datos de prueba, ejecuta el script de semillas de Prisma
 npm run prisma:seed
 
-
 # Para inicializar la base de datos
 npx prisma migrate dev --name init
 
-
 # Desarrollo
 # Este proyecto utiliza Prisma como ORM para la base de datos. Asegúrate de tener una instancia de base de datos configurada y conectada antes de ejecutar los scripts relacionados con Prisma.
+
+# Tecnologías Utilizadas
+# Node.js
+# Express.js
+# Prisma
+# JSON Web Tokens (JWT) para autenticación
+# Bcrypt para encriptación de contraseñas
+# Zod para validación de datos
+# Helmet y CORS para seguridad

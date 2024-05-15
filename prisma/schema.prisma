@@ -112,6 +112,7 @@ model Walk {
   dateTime     DateTime     @map("date_time")
   duration     Int
   location     String
+  enabled      Boolean      @default(true)
   walkerUserId Int          @map("walker_user_id")
   Walker       User         @relation(fields: [walkerUserId], references: [userId], name: "walkerUser")
   WalkDetails  WalkDetail[]

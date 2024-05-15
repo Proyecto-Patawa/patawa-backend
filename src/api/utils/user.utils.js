@@ -12,6 +12,7 @@ export function userSelectData(extraParams) {
     avatarUrl: true,
     Addresses: true,
     Phones: true,
+    enabled: true,
     UserRoles: {
       include: {
         Role: true,

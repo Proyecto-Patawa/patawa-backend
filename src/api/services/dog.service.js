@@ -29,7 +29,7 @@ export const dogService = {
   },
 
   deleteDog: async (id) => {
-    return await prisma.dog.delete({
+    return await prisma.dog.update({
       where: { dogId: id },
     });
   },
