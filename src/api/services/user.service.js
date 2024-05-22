@@ -40,8 +40,8 @@ export const userService = {
 
   updateUser: async (id, userData) => {
     const enabledUser = await userService.checkUser(id);
-
     if (enabledUser) {
+      delete enabledUser.password;
       return await prisma.user.update({
         where: { userId: id, enabled: true },
         data: userData,
@@ -195,6 +195,7 @@ export const userService = {
           create: { userId: id, roleId: role.roleId },
         });
       } // Actualizamos el usuario principal
+      delete userData.password;
       const updatedUser = await prisma.user.update({
         where: { userId: id },
         data: { ...userData },
