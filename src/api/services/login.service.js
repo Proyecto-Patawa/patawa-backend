@@ -24,6 +24,6 @@ export const loginService = {
       expiresIn: 60 * 60 * 24 * 7,
     });
 
-    return { user, token };
+    return { tokenUser, token };
   },
 };
