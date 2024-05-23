@@ -2,7 +2,7 @@
 CREATE TABLE `users` (
     `user_id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(191) NOT NULL,
-    `password_hash` VARCHAR(191) NOT NULL DEFAULT '',
+    `password` VARCHAR(191) NOT NULL DEFAULT '',
     `full_name` VARCHAR(191) NOT NULL,
     `age` INTEGER NULL,
     `document_type_id` INTEGER NOT NULL,
@@ -10,6 +10,7 @@ CREATE TABLE `users` (
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `last_login_at` DATETIME(3) NOT NULL,
     `avatar_url` VARCHAR(191) NULL,
+    `enabled` BOOLEAN NOT NULL DEFAULT true,
 
     UNIQUE INDEX `users_email_key`(`email`),
     UNIQUE INDEX `users_document_number_key`(`document_number`),
@@ -74,6 +75,7 @@ CREATE TABLE `dogs` (
     `size` VARCHAR(191) NOT NULL,
     `breed_id` INTEGER NOT NULL,
     `photo` VARCHAR(191) NULL,
+    `enabled` BOOLEAN NOT NULL DEFAULT true,
 
     PRIMARY KEY (`dog_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -93,6 +95,7 @@ CREATE TABLE `walks` (
     `date_time` DATETIME(3) NOT NULL,
     `duration` INTEGER NOT NULL,
     `location` VARCHAR(191) NOT NULL,
+    `enabled` BOOLEAN NOT NULL DEFAULT true,
     `walker_user_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`walk_id`)
@@ -133,7 +136,7 @@ ALTER TABLE `dogs` ADD CONSTRAINT `dogs_breed_id_fkey` FOREIGN KEY (`breed_id`) 
 ALTER TABLE `walks` ADD CONSTRAINT `walks_walker_user_id_fkey` FOREIGN KEY (`walker_user_id`) REFERENCES `users`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `walk_details` ADD CONSTRAINT `walk_details_walk_id_fkey` FOREIGN KEY (`walk_id`) REFERENCES `walks`(`walk_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `walk_details` ADD CONSTRAINT `walk_details_walk_id_fkey` FOREIGN KEY (`walk_id`) REFERENCES `walks`(`walk_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `walk_details` ADD CONSTRAINT `walk_details_dog_id_fkey` FOREIGN KEY (`dog_id`) REFERENCES `dogs`(`dog_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
