@@ -16,4 +16,24 @@ export const loginController = {
       res.status(400).json({ error: error.message });
     }
   },
+  changePassword: async (req, res) => {
+    try {
+      const { password, newPassword } = req.body;
+      const userId = parseInt(req.params.userId);
+
+      const response = await loginService.changePassword(
+        userId,
+        password,
+        newPassword
+      );
+
+      if (response.message) {
+        res.status(201).json(response.message);
+      } else {
+        res.status(401).json(response.error);
+      }
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  },
 };
